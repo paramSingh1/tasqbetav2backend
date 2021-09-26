@@ -1,34 +1,19 @@
 {
-  "name": "relations",
+  "name": "tasq-mern",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node app.js",
-    "prod": "NODE_ENV=production nodemon app.js",
-    "dev": "nodemon app.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "npm start --prefix frontend",
+    "backend" : "npm run dev --prefix backend",
+    "start" : "concurrently \"npm run frontend\" \"npm run backend\""
+
   },
   "keywords": [],
   "author": "",
-  "type": "module",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.4",
-    "bcrypt": "^5.0.1",
-    "config": "^3.3.6",
-    "cors": "^2.8.5",
-    "crypto-js": "^4.1.1",
-    "express": "^4.17.1",
-    "express-validator": "^6.12.1",
-    "gravatar": "^1.8.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.4",
-    "node-schedule": "^2.0.0",
-    "nodemailer": "^6.6.3",
-    "randomstring": "^1.2.1",
-    "twilio": "^3.67.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.12"
+    "concurrently": "^6.2.1"
   }
 }
