@@ -1,0 +1,17 @@
+{
+    "mongodb": "mongodb+srv://prashanth:prashanth%40123@thehackingschool.5zsol.mongodb.net/tasq-beta?authSource=admin&replicaSet=atlas-wkkyk9-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true",
+    "emailserver": {
+        "username": "no-reply@param.dev",
+        "password": "parampassword"
+    },
+    "port": {
+        "localhost": 8888
+    },
+    "twilio": {
+        "accountSid": "AC5e2cdff6d6034f08e607eeae1811149d",
+        "authToken": "25e50bc502ea43f739d43deb861b7406"
+    },
+    "jwtkey": "thehackingschool_Australia",
+    "cipherkey": "neverSLEEPwh!!ecod1NG",
+    "host": "https://tasqforce.herokuapp.com"
+}
