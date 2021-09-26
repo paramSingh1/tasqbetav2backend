@@ -12,6 +12,8 @@
         "authToken": "25e50bc502ea43f739d43deb861b7406"
     },
     "jwtkey": "thehackingschool_Australia",
-    "cipherkey": "neverSLEEPwh!!ecod1NG",
-    "host": "http://localhost:5000"
+    "cipherkey": "thequickbrownfoxjumpsoverthelazydog",
+    "host" : "http://localhost:5000"
+
+    
 }
