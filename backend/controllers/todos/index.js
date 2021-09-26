@@ -1,6 +1,6 @@
 import express from "express";
 import { scheduledJobs } from "node-schedule";
-
+import axios from 'axios'
 //Import Auth middleware
 import auth from '../../middlewares/auth/index.js';
 import {
@@ -45,6 +45,7 @@ router.post('/add',
     async (req, res) => {
         try {
             const userData = await UserTodo.findOne({ user: req.user.userid });
+            console.log(userData);
             if (!userData) {
                 return res.status(400).json({ errors: [{ msg: "User Not Found" }] });
             }
@@ -53,15 +54,22 @@ router.post('/add',
             //Extract the last one
             let recentTodoObj = userData.todos[userData.todos.length - 1];
             let userid = req.user.userid;
+            console.log(recentTodoObj);
+            console.log(userid);
             //Instantiate the Service Worker - Schedule a job
             console.log(scheduledJobs);
-            duedateScheduler(recentTodoObj, userid);
-            //Instantiate the Service Worker - Schedule a job for reminders
-            remindersScheduler(recentTodoObj, userid);
+            let microservicePayload = {
+                recentTodo : recentTodoObj,
+                userid : userid
+            }
+            await axios.post("http://localhost:8080/api/duedate/scheduleduedate", microservicePayload );
+            // duedateScheduler(recentTodoObj, userid);
+            // //Instantiate the Service Worker - Schedule a job for reminders
+            // remindersScheduler(recentTodoObj, userid);
             res.status(200).json({ Success: "Todo is Added" });
         } catch (err) {
-            console.log(error);
-            res.status(500).json({ error });
+            console.log(err);
+            res.status(500).json({ err });
         }
     });
 
@@ -117,8 +125,18 @@ router.put('/edit/:todoid',
             console.log(scheduledJobs);
 
             //Instantiate the service worker - Reschedule the job (Delete the old job & schedule)
-            duedateRescheduler(todos[indexFound], req.user.userid);
-            reminderRescheduler(todos[indexFound], req.user.userid);
+            let microservicePayload = {
+                todo : todos[indexFound],
+                userid:req.user.userid
+            }
+            await axios.put("http://localhost:8080/api/duedate/rescheduleduedate", microservicePayload,{headers: {
+                'Content-Type': 'application/json'
+            }} );
+
+
+            // duedateRescheduler(todos[indexFound], req.user.userid);
+            // reminderRescheduler(todos[indexFound], req.user.userid);
+
             res.status(200).json({ Success: "Todo is Edited" });
         } catch (error) {
             console.log(error);
@@ -172,7 +190,13 @@ router.delete('/delete/:todoid', async (req, res) => {
 
         //Delete the Service worker job
         console.log(scheduledJobs);
-        cancelServiceWorker(req.params.todoid);
+        // cancelServiceWorker(req.params.todoid);
+                let payload={
+                    _id:req.params.todoid
+                }
+            await axios.delete("http://localhost:8080/api/duedate/cancelduedate", payload,{headers: {
+                'Content-Type': 'application/json'
+            }} );
         console.log(scheduledJobs);
         res.status(200).json({ Success: "Todo is Deleted" });
     } catch (error) {
